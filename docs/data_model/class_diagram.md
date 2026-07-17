@@ -6,79 +6,117 @@
 classDiagram
 
 class User{
-  +id
-  +nama
-  +username
-  +password
-  +peran
-  +login()
-  +logout()
+    +id
+    +nama
+    +username
+    +password
+    +login()
+    +logout()
+}
+
+class Siswa{
+    +lihatKatalog()
+    +pinjamBuku()
+    +lihatRiwayat()
+    +beriReview()
+    +lihatNotifikasi()
+}
+
+class GuruKaryawan{
+    +kelolaBuku()
+    +catatPeminjaman()
+    +catatPengembalian()
+    +uploadEbook()
+}
+
+class KepalaSekolah{
+    +lihatLaporan()
+    +lihatAnalisis()
+}
+
+class Admin{
+    +kelolaAkun()
+    +backupData()
+    +maintenance()
 }
 
 class Buku{
-  +idBuku
-  +judul
-  +penulis
-  +penerbit
-  +tahunTerbit
-  +kategori
-  +stok
-  +jenis
+    +idBuku
+    +judul
+    +penulis
+    +penerbit
+    +tahunTerbit
+    +kategori
+    +stok
+    +jenis
 }
 
 class Ebook{
-  +idEbook
-  +filePDF
-  +ukuranFile
+    +idEbook
+    +filePDF
+    +ukuranFile
 }
 
 class Peminjaman{
-  +idPinjam
-  +tanggalPinjam
-  +batasKembali
-  +status
+    +idPinjam
+    +tanggalPinjam
+    +batasKembali
+    +status
 }
 
 class Pengembalian{
-  +idKembali
-  +tanggalKembali
-  +denda
+    +idKembali
+    +tanggalKembali
+    +denda
 }
 
 class Review{
-  +idReview
-  +rating
-  +komentar
-  +tanggal
+    +idReview
+    +rating
+    +komentar
+    +tanggal
 }
 
 class Notifikasi{
-  +idNotif
-  +judul
-  +pesan
-  +status
-  +tanggal
+    +idNotif
+    +judul
+    +pesan
+    +status
+    +tanggal
 }
 
 class Laporan{
-  +idLaporan
-  +periode
-  +tanggalCetak
+    +idLaporan
+    +periode
+    +tanggalCetak
 }
 
-%% Relasi
+%% Inheritance
+User <|-- Siswa
+User <|-- GuruKaryawan
+User <|-- KepalaSekolah
+User <|-- Admin
 
-User "1" --> "*" Peminjaman : meminjam
+%% Relasi
+Siswa "1" --> "*" Peminjaman : meminjam
 Buku "1" --> "*" Peminjaman : dipinjam
 
 Peminjaman "1" --> "0..1" Pengembalian : dikembalikan
 
-User "1" --> "*" Review : memberi
+Siswa "1" --> "*" Review : memberi
 Buku "1" --> "*" Review : memiliki
 
-User "1" --> "*" Notifikasi : menerima
+Siswa "1" --> "*" Notifikasi : menerima
 
 Buku "1" --> "0..1" Ebook : memiliki
 
-User "1" --> "*" Laporan : generate
+GuruKaryawan "1" --> "*" Buku : mengelola
+GuruKaryawan "1" --> "*" Ebook : mengunggah
+GuruKaryawan "1" --> "*" Peminjaman : mencatat
+GuruKaryawan "1" --> "*" Pengembalian : memproses
+
+KepalaSekolah "1" --> "*" Laporan : melihat
+
+Admin "1" --> "*" User : mengelola
+Admin "1" --> "*" Laporan : backup
 ```
