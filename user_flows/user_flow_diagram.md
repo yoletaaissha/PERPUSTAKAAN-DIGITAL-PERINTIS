@@ -1,6 +1,26 @@
 # User Flow Diagram
 
-Dokumen ini menggambarkan alur navigasi pengguna pada Sistem Informasi Perpustakaan Perintis berdasarkan masing-masing aktor.
+Dokumen ini menggambarkan alur navigasi utama setiap aktor pada Sistem Informasi Perpustakaan Perintis. Diagram disusun berdasarkan Use Case UC-001 sampai UC-017 dan menjadi acuan dalam perancangan antarmuka, class diagram, serta implementasi sistem.
+
+---
+
+# Overview User Flow
+
+```mermaid
+flowchart LR
+
+A([Login])
+
+A --> B[Siswa]
+A --> C[Guru/Karyawan]
+A --> D[Kepala Sekolah]
+A --> E[Admin]
+
+B --> F([Logout])
+C --> F
+D --> F
+E --> F
+```
 
 ---
 
@@ -9,8 +29,11 @@ Dokumen ini menggambarkan alur navigasi pengguna pada Sistem Informasi Perpustak
 ```mermaid
 flowchart TD
 
-A([Start]) --> B[Halaman Login]
+A([Start])
+--> B[Halaman Login]
+
 B --> C[Masukkan Username & Password]
+
 C --> D{Login Berhasil?}
 
 D -- Tidak --> E[Tampilkan Pesan Error]
@@ -19,29 +42,39 @@ E --> B
 D -- Ya --> F[Dashboard Siswa]
 
 F --> G[Katalog Buku]
-F --> H[Notifikasi]
-F --> I[Rekomendasi Buku]
-F --> O[Logout]
+F --> H[Peminjaman Saya]
+F --> I[Riwayat Peminjaman]
+F --> J[Notifikasi]
+F --> K[Profil]
+F --> L[Logout]
 
-G --> J[Pencarian / Filter Buku]
-J --> K[Detail Buku]
+%% Katalog
+G --> G1[Cari Buku]
+G1 --> G2[Filter Buku]
+G2 --> G3[Detail Buku]
 
-K --> L{Jenis Buku?}
+G3 --> G4{Jenis Buku?}
 
-L -- Digital --> M[Baca E-book PDF]
-L -- Fisik --> N[Lihat Informasi Buku]
+G4 -- Buku Digital --> G5[Baca E-book PDF]
 
-K --> P{Pernah Meminjam?}
+G4 -- Buku Fisik --> G6[Lihat Informasi Buku]
 
-P -- Ya --> Q[Beri Review & Rating]
-P -- Tidak --> K
+G3 --> G7{Pernah Meminjam?}
 
-M --> F
-N --> F
+G7 -- Ya --> G8[Beri Review & Rating]
+G7 -- Tidak --> G3
+
+G5 --> F
+G6 --> F
+G8 --> F
+
+%% Halaman lainnya
 H --> F
-I --> K
-Q --> F
-O --> R([Selesai])
+I --> F
+J --> F
+K --> F
+
+L --> M([Selesai])
 ```
 
 ---
@@ -51,8 +84,11 @@ O --> R([Selesai])
 ```mermaid
 flowchart TD
 
-A([Start]) --> B[Halaman Login]
+A([Start])
+--> B[Halaman Login]
+
 B --> C[Masukkan Username & Password]
+
 C --> D{Login Berhasil?}
 
 D -- Tidak --> E[Pesan Error]
@@ -61,13 +97,15 @@ E --> B
 D -- Ya --> F[Dashboard Guru]
 
 F --> G[Kelola Buku]
-F --> H[Kelola Peminjaman]
-F --> I[Kelola Pengembalian]
-F --> J[Generate Laporan]
-F --> K[Upload E-book]
-F --> T[Logout]
+F --> H[Upload E-book]
+F --> I[Peminjaman]
+F --> J[Pengembalian]
+F --> K[Generate Laporan]
+F --> L[Profil]
+F --> M[Logout]
 
 %% Kelola Buku
+
 G --> G1[Tambah Buku]
 G --> G2[Edit Buku]
 G --> G3[Hapus Buku]
@@ -76,30 +114,37 @@ G1 --> G
 G2 --> G
 G3 --> G
 
+%% Upload Ebook
+
+H --> H1[Input Data E-book]
+H1 --> H2[Upload File PDF]
+H2 --> H3[Simpan]
+H3 --> F
+
 %% Peminjaman
-H --> H1[Pilih Siswa]
-H1 --> H2[Pilih Buku]
-H2 --> H3[Simpan Peminjaman]
-H3 --> H
+
+I --> I1[Pilih Siswa]
+I1 --> I2[Pilih Buku]
+I2 --> I3[Simpan Peminjaman]
+I3 --> F
 
 %% Pengembalian
-I --> I1[Pilih Transaksi]
-I1 --> I2[Hitung Denda]
-I2 --> I3[Konfirmasi Pengembalian]
-I3 --> I
+
+J --> J1[Pilih Transaksi]
+J1 --> J2[Hitung Denda]
+J2 --> J3[Konfirmasi Pengembalian]
+J3 --> F
 
 %% Laporan
-J --> J1[Pilih Filter]
-J1 --> J2[Tampilkan Laporan]
-J2 --> J3[Cetak Laporan]
-J3 --> J
 
-%% Upload
-K --> K1[Input Data E-book]
-K1 --> K2[Simpan]
-K2 --> K
+K --> K1[Pilih Periode]
+K1 --> K2[Tampilkan Laporan]
+K2 --> K3[Cetak / Export]
+K3 --> F
 
-T --> U([Selesai])
+L --> F
+
+M --> N([Selesai])
 ```
 
 ---
@@ -109,8 +154,11 @@ T --> U([Selesai])
 ```mermaid
 flowchart TD
 
-A([Start]) --> B[Halaman Login]
+A([Start])
+--> B[Halaman Login]
+
 B --> C[Masukkan Username & Password]
+
 C --> D{Login Berhasil?}
 
 D -- Tidak --> E[Pesan Error]
@@ -118,25 +166,44 @@ E --> B
 
 D -- Ya --> F[Dashboard Kepala Sekolah]
 
-F --> G[Lihat KPI]
-F --> H[Grafik Peminjaman]
-F --> I[Analisis Minat Baca]
-F --> J[Logout]
+F --> G[Data Buku]
+F --> H[Data Peminjaman]
+F --> I[Grafik Peminjaman]
+F --> J[Analisis Minat Baca]
+F --> K[Profil]
+F --> L[Logout]
 
-G --> F
-H --> H1[Pilih Tahun]
-H1 --> H2[Tampilkan Grafik]
-H2 --> F
+%% Data Buku
 
-I --> I1[Lihat Pie Chart]
-I --> I2[Lihat Top 10 Buku]
-I --> I3[Lihat Statistik per Kelas]
+G --> G1[Lihat Daftar Buku]
+G1 --> F
 
-I1 --> F
+%% Data Peminjaman
+
+H --> H1[Lihat Data Peminjaman]
+H1 --> F
+
+%% Grafik
+
+I --> I1[Pilih Tahun]
+I1 --> I2[Tampilkan Grafik]
 I2 --> F
-I3 --> F
 
-J --> K([Selesai])
+%% Analisis
+
+J --> J1[Lihat Statistik]
+J --> J2[Lihat Buku Terfavorit]
+J --> J3[Lihat Minat Baca]
+
+J1 --> F
+J2 --> F
+J3 --> F
+
+%% Profil
+
+K --> F
+
+L --> M([Selesai])
 ```
 
 ---
@@ -146,8 +213,11 @@ J --> K([Selesai])
 ```mermaid
 flowchart TD
 
-A([Start]) --> B[Halaman Login]
+A([Start])
+--> B[Halaman Login]
+
 B --> C[Masukkan Username & Password]
+
 C --> D{Login Berhasil?}
 
 D -- Tidak --> E[Pesan Error]
@@ -156,44 +226,51 @@ E --> B
 D -- Ya --> F[Dashboard Admin]
 
 F --> G[Kelola User]
-F --> H[Backup Data]
-F --> I[Log Aktivitas]
-F --> J[Pengaturan Sistem]
-F --> K[Reset Data]
+F --> H[Pengaturan Sistem]
+F --> I[Backup Data]
+F --> J[Log Aktivitas]
+F --> K[Profil]
 F --> L[Logout]
 
 %% Kelola User
+
 G --> G1[Tambah User]
 G --> G2[Edit User]
-G --> G3[Nonaktifkan User]
+G --> G3[Hapus User]
 
 G1 --> G
 G2 --> G
 G3 --> G
 
-%% Backup
-H --> H1[Download JSON]
-H1 --> H
-
-%% Log
-I --> I1[Lihat Aktivitas]
-I1 --> I
-
 %% Pengaturan
-J --> J1[Ubah Konfigurasi]
-J1 --> J2[Simpan Pengaturan]
-J2 --> J
 
-%% Reset
-K --> K1[Konfirmasi RESET]
-K1 --> K2[Reset Data]
-K2 --> F
+H --> H1[Ubah Konfigurasi]
+H1 --> H2[Simpan Pengaturan]
+H2 --> F
+
+%% Backup
+
+I --> I1[Backup Data]
+I1 --> I2[Download File]
+I2 --> F
+
+%% Log Aktivitas
+
+J --> J1[Lihat Riwayat Aktivitas]
+J1 --> F
+
+%% Profil
+
+K --> F
 
 L --> M([Selesai])
 ```
 
 ---
 
-## Keterangan
+# Keterangan
 
-Diagram di atas menggambarkan alur navigasi utama setiap aktor dalam menggunakan Sistem Informasi Perpustakaan Perintis. Diagram ini disusun berdasarkan Use Case UC-001 sampai UC-017 dan menjadi penghubung antara Use Case Specification dengan Sequence Diagram pada tahap perancangan sistem.
+- Seluruh aktor harus melakukan login sebelum mengakses sistem.
+- Semua alur mengacu pada Use Case UC-001 sampai UC-017.
+- Diagram ini menjadi dasar penyusunan Sequence Diagram, Class Diagram, UCIC, dan implementasi aplikasi.
+- Data pada prototype disimpan menggunakan **localStorage** sehingga seluruh alur dapat langsung diuji menggunakan dummy data.
