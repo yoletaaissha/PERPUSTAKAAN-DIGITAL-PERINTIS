@@ -53,7 +53,7 @@ export const storage = {
 
   // -- Konfigurasi --
   getKonfig: () => {
-    const def = { namaPerpustakaan: 'Perpustakaan Sekolah', dendaPerHari: 500, batasHariPinjam: 7 }
+    const def = { namaPerpustakaan: 'Perpustakaan Perintis', dendaPerHari: 500, batasHariPinjam: 7 }
     try {
       return JSON.parse(localStorage.getItem(KEYS.KONFIG)) || def
     } catch {

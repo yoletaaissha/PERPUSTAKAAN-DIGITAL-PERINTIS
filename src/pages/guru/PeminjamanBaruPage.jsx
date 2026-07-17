@@ -11,12 +11,16 @@ import { generateId } from '../../lib/utils'
 export default function PeminjamanBaruPage() {
   const navigate = useNavigate()
   const { addToast } = useToast()
+  const konfig = storage.getKonfig()
   const siswa = storage.getSiswa().filter(s => s.isActive)
   const bukuFisik = storage.getBuku().filter(b => b.jenis === 'fisik' && b.stok > 0)
   const pinjaman = storage.getPeminjaman()
 
+  const batasHariPinjam = konfig.batasHariPinjam || 7
+  const maxBukuPerSiswa = konfig.maxBukuPerSiswa || 3
+
   const today = new Date().toISOString().split('T')[0]
-  const defaultBatas = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+  const defaultBatas = new Date(Date.now() + batasHariPinjam * 86400000).toISOString().split('T')[0]
 
   const [idSiswa, setIdSiswa] = useState('')
   const [idBuku, setIdBuku] = useState('')
@@ -30,7 +34,7 @@ export default function PeminjamanBaruPage() {
     return pinjaman.filter(p => p.idSiswa === idSiswa && (p.status === 'dipinjam' || p.status === 'terlambat')).length
   }, [idSiswa, pinjaman])
 
-  const siswaMaxReached = activeCount >= 3
+  const siswaMaxReached = activeCount >= maxBukuPerSiswa
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -38,7 +42,7 @@ export default function PeminjamanBaruPage() {
     if (!idSiswa) errs.siswa = 'Pilih siswa'
     if (!idBuku) errs.buku = 'Pilih buku'
     if (!tanggalPinjam) errs.tanggal = 'Pilih tanggal pinjam'
-    if (siswaMaxReached) errs.siswa = 'Siswa ini sudah mencapai batas maksimal peminjaman (3 buku). Minta siswa mengembalikan buku terlebih dahulu.'
+    if (siswaMaxReached) errs.siswa = `Siswa ini sudah mencapai batas maksimal peminjaman (${maxBukuPerSiswa} buku). Minta siswa mengembalikan buku terlebih dahulu.`
     setErrors(errs)
     if (Object.keys(errs).length > 0) return
 
@@ -93,7 +97,7 @@ export default function PeminjamanBaruPage() {
               {errors.siswa && <p className="field-error">{errors.siswa}</p>}
               {idSiswa && (
                 <p className={`text-xs ${siswaMaxReached ? 'text-danger font-semibold' : 'text-neutral-500'}`}>
-                  Peminjaman aktif siswa ini: {activeCount}/3
+                  Peminjaman aktif siswa ini: {activeCount}/{maxBukuPerSiswa}
                 </p>
               )}
             </div>
@@ -110,7 +114,7 @@ export default function PeminjamanBaruPage() {
             <Input label="Tanggal Pinjam" type="date" required value={tanggalPinjam} onChange={e => {
               setTanggalPinjam(e.target.value)
               const d = new Date(e.target.value)
-              d.setDate(d.getDate() + 7)
+              d.setDate(d.getDate() + batasHariPinjam)
               setBatasKembali(d.toISOString().split('T')[0])
             }} />
 

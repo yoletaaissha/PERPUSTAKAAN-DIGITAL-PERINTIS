@@ -23,33 +23,6 @@ export default function DashboardSiswa() {
   const getJudul = (id) => buku.find(b => b.idBuku === id)?.judul || '-'
 
   // UC-007: Rekomendasi
-  const rekomendasi = useMemo(() => {
-    const history = pinjaman.filter(p => p.status === 'dikembalikan')
-    if (history.length === 0) return []
-    const catCount = {}
-    history.forEach(p => {
-      const b = buku.find(bk => bk.idBuku === p.idBuku)
-      if (b) catCount[b.kategori] = (catCount[b.kategori] || 0) + 1
-    })
-    const sorted = Object.entries(catCount).sort((a, b) => b[1] - a[1])
-    const topCat = sorted[0]?.[0]
-    if (!topCat) return []
-    const borrowedIds = new Set(pinjaman.map(p => p.idBuku))
-    return buku.filter(b => b.kategori === topCat && !borrowedIds.has(b.idBuku)).slice(0, 4)
-  }, [pinjaman, buku])
-
-  if (rekomendasi.length > 0) {
-    const topCat = rekomendasi[0].kategori
-    const borrowedIds = new Set(pinjaman.map(p => p.idBuku))
-    const fallback = buku.filter(b => !borrowedIds.has(b.idBuku))
-      .sort((a, b) => {
-        const ra = review.filter(r => r.idBuku === a.idBuku).reduce((s, r) => s + r.rating, 0)
-        const rb = review.filter(r => r.idBuku === b.idBuku).reduce((s, r) => s + r.rating, 0)
-        return rb - ra
-      }).slice(0, 4)
-    // Merge: use topCat books first, fill with fallback
-  }
-
   const displayRecs = useMemo(() => {
     const history = pinjaman.filter(p => p.status === 'dikembalikan')
     if (history.length === 0) return { books: [], label: '' }

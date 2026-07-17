@@ -33,7 +33,7 @@ export default function Topbar({ title, onToggleSidebar, unreadNotifCount = 0 })
         </button>
         <BookOpen className="w-6 h-6 text-primary shrink-0 hidden sm:block" />
         <span className="font-semibold text-neutral-900 text-base md:text-lg truncate max-w-[160px] md:max-w-none">
-          {title || 'Perpustakaan Sekolah'}
+          {title || 'Perpustakaan Perintis'}
         </span>
       </div>
 

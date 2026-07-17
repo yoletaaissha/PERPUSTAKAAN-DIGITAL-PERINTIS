@@ -1,4 +1,4 @@
-# Sistem Informasi Perpustakaan Sekolah Berbasis Hybrid
+# Sistem Informasi Perpustakaan Perintis
 
 Frontend prototype untuk perpustakaan sekolah hybrid (fisik & digital) menggunakan React + Vite + localStorage.
 

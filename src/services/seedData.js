@@ -1,8 +1,12 @@
 import { storage } from './storage'
 
+const SEED_VERSION = 3
+
 export function seedInitialData() {
-  const existingSiswa = storage.getSiswa()
-  if (existingSiswa.length > 0) return
+  const storedVersion = localStorage.getItem('perpustakaan_seed_version')
+  if (storedVersion === String(SEED_VERSION)) return
+
+  storage.resetAll()
 
   const siswa = [
     { idSiswa: 'SW-001', nama: 'Andi Pratama', kelas: 'X-A', username: 'siswa01', password: 'siswa123', createdAt: '2026-01-01', isActive: true },
@@ -15,16 +19,16 @@ export function seedInitialData() {
   storage.saveSiswa(siswa)
 
   const buku = [
-    { idBuku: 'BK-001', judul: 'Laskar Pelangi', penulis: 'Andrea Hirata', kategori: 'Fiksi', jenis: 'fisik', stok: 5, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Laskar+Pelangi', tahunTerbit: 2005, penerbit: 'Bentang Pustaka', deskripsi: 'Novel tentang perjuangan anak-anak di Belitung.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-002', judul: 'Bumi', penulis: 'Tere Liye', kategori: 'Fiksi', jenis: 'fisik', stok: 3, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Bumi', tahunTerbit: 2014, penerbit: 'Gramedia', deskripsi: 'Petualangan Raib, Seli, dan Ali.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-003', judul: 'Sejarah Dunia', penulis: 'J.M. Roberts', kategori: 'Sejarah', jenis: 'fisik', stok: 2, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Sejarah+Dunia', tahunTerbit: 2010, penerbit: 'Elex Media', deskripsi: 'Kompilasi sejarah dunia.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-004', judul: 'Pintar Fisika', penulis: 'Prof. Yohanes Surya', kategori: 'Sains', jenis: 'fisik', stok: 4, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Pintar+Fisika', tahunTerbit: 2018, penerbit: 'PT. Gramedia', deskripsi: 'Buku fisika untuk SMA.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-005', judul: 'Pemrograman Web', penulis: 'Rudi Hartono', kategori: 'Teknologi', jenis: 'digital', stok: 0, pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', coverUrl: 'https://placehold.co/150x200?text=Pemrograman+Web', tahunTerbit: 2020, penerbit: 'Informatika', deskripsi: 'Panduan belajar web programming.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-006', judul: 'Pengantar Sastra Indonesia', penulis: 'Dr. Sapardi Djoko Damono', kategori: 'Sastra', jenis: 'digital', stok: 0, pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', coverUrl: 'https://placehold.co/150x200?text=Sastra+Indonesia', tahunTerbit: 2015, penerbit: 'Balai Pustaka', deskripsi: 'Pengantar sastra Indonesia modern.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-007', judul: 'Ensiklopedia Sains', penulis: 'Tim Pustaka', kategori: 'Referensi', jenis: 'fisik', stok: 1, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Ensiklopedia+Sains', tahunTerbit: 2019, penerbit: 'Pustaka Ilmu', deskripsi: 'Referensi sains lengkap.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-008', judul: 'Matematika Diskrit', penulis: 'Rinaldi Munir', kategori: 'Teknologi', jenis: 'fisik', stok: 0, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Matematika+Diskrit', tahunTerbit: 2016, penerbit: 'Informatika', deskripsi: 'Buku matematika untuk ilmu komputer.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-009', judul: 'Sapiens: Riwayat Singkat Umat Manusia', penulis: 'Yuval Noah Harari', kategori: 'Sejarah', jenis: 'digital', stok: 0, pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', coverUrl: 'https://placehold.co/150x200?text=Sapiens', tahunTerbit: 2013, penerbit: 'Kepustakaan Populer Gramedia', deskripsi: 'Perjalanan evolusi manusia dari masa purba hingga modern.', createdAt: '2026-01-01' },
-    { idBuku: 'BK-010', judul: 'Atomic Habits', penulis: 'James Clear', kategori: 'Non-Fiksi', jenis: 'fisik', stok: 7, pdfUrl: '', coverUrl: 'https://placehold.co/150x200?text=Atomic+Habits', tahunTerbit: 2018, penerbit: 'Penguin Random House', deskripsi: 'Cara membangun kebiasaan baik dan menghentikan kebiasaan buruk.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-001', judul: 'Laskar Pelangi', penulis: 'Andrea Hirata', kategori: 'Fiksi', jenis: 'fisik', stok: 5, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=400&fit=crop', tahunTerbit: 2005, penerbit: 'Bentang Pustaka', deskripsi: 'Novel tentang perjuangan anak-anak di Belitung.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-002', judul: 'Bumi', penulis: 'Tere Liye', kategori: 'Fiksi', jenis: 'fisik', stok: 3, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&h=400&fit=crop', tahunTerbit: 2014, penerbit: 'Gramedia', deskripsi: 'Petualangan Raib, Seli, dan Ali.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-003', judul: 'Sejarah Dunia', penulis: 'J.M. Roberts', kategori: 'Sejarah', jenis: 'fisik', stok: 2, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1723306743407-cb6ac8f19941?w=300&h=400&fit=crop', tahunTerbit: 2010, penerbit: 'Elex Media', deskripsi: 'Kompilasi sejarah dunia.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-004', judul: 'Pintar Fisika', penulis: 'Prof. Yohanes Surya', kategori: 'Sains', jenis: 'fisik', stok: 4, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=300&h=400&fit=crop', tahunTerbit: 2018, penerbit: 'PT. Gramedia', deskripsi: 'Buku fisika untuk SMA.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-005', judul: 'Pemrograman Web', penulis: 'Rudi Hartono', kategori: 'Teknologi', jenis: 'digital', stok: 0, pdfUrl: 'https://github.com/mdn/curriculum/releases/latest/download/MDN-Curriculum.pdf', coverUrl: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=400&fit=crop', tahunTerbit: 2020, penerbit: 'Informatika', deskripsi: 'Panduan belajar web programming.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-006', judul: 'Pengantar Sastra Indonesia', penulis: 'Dr. Sapardi Djoko Damono', kategori: 'Sastra', jenis: 'digital', stok: 0, pdfUrl: 'https://repository.uinjkt.ac.id/dspace/bitstream/123456789/50800/1/AHMAD%20BAHTIAR%20-%20Buku%20Sejarah%20Sastra%20Indonesia.pdf', coverUrl: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=400&fit=crop', tahunTerbit: 2015, penerbit: 'Balai Pustaka', deskripsi: 'Pengantar sastra Indonesia modern.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-007', judul: 'Ensiklopedia Sains', penulis: 'Tim Pustaka', kategori: 'Referensi', jenis: 'fisik', stok: 1, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=300&h=400&fit=crop', tahunTerbit: 2019, penerbit: 'Pustaka Ilmu', deskripsi: 'Referensi sains lengkap.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-008', judul: 'Matematika Diskrit', penulis: 'Rinaldi Munir', kategori: 'Teknologi', jenis: 'fisik', stok: 0, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=300&h=400&fit=crop', tahunTerbit: 2016, penerbit: 'Informatika', deskripsi: 'Buku matematika untuk ilmu komputer.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-009', judul: 'Sapiens: Riwayat Singkat Umat Manusia', penulis: 'Yuval Noah Harari', kategori: 'Sejarah', jenis: 'digital', stok: 0, pdfUrl: 'https://a61a085359000702575d-1091780f292ed74c8a63cc6ff151398e.ssl.cf3.rackcdn.com/1/4721/extract_sapiens.pdf', coverUrl: 'https://i.harperapps.com/covers/9780062796233/y648.jpg', tahunTerbit: 2013, penerbit: 'Kepustakaan Populer Gramedia', deskripsi: 'Perjalanan evolusi manusia dari masa purba hingga modern.', createdAt: '2026-01-01' },
+    { idBuku: 'BK-010', judul: 'Atomic Habits', penulis: 'James Clear', kategori: 'Non-Fiksi', jenis: 'fisik', stok: 7, pdfUrl: '', coverUrl: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=300&h=400&fit=crop', tahunTerbit: 2018, penerbit: 'Penguin Random House', deskripsi: 'Cara membangun kebiasaan baik dan menghentikan kebiasaan buruk.', createdAt: '2026-01-01' },
   ]
   storage.saveBuku(buku)
 
@@ -85,9 +89,11 @@ export function seedInitialData() {
   ]
   storage.saveNotifikasi(notif)
 
-  storage.saveKonfig({ namaPerpustakaan: 'Perpustakaan Sekolah Hibrida', dendaPerHari: 500, batasHariPinjam: 7, maxBukuPerSiswa: 3 })
+  storage.saveKonfig({ namaPerpustakaan: 'Perpustakaan Perintis', dendaPerHari: 500, batasHariPinjam: 7, maxBukuPerSiswa: 3 })
 
   storage.saveLog([
     { aksi: 'Sistem diinisialisasi dengan data demo', pelaku: 'System', timestamp: now.toISOString() },
   ])
+
+  localStorage.setItem('perpustakaan_seed_version', String(SEED_VERSION))
 }

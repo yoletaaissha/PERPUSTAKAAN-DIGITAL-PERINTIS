@@ -1,3 +1,4 @@
+import logoSekolah from "../../assets/logo-sekolah.png"
 import { NavLink, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, Search, ClipboardList, History, Bell, User,
@@ -49,10 +50,28 @@ export default function Sidebar({ peran, collapsed, onToggleCollapse, onClose, u
 
   return (
     <aside className="bg-neutral-100 border-r border-neutral-200 flex flex-col h-full overflow-y-auto">
-      <div className={`h-16 flex items-center border-b border-neutral-200 shrink-0 ${collapsed ? 'justify-center px-0' : 'gap-2 px-4'}`}>
-        <Library className="w-6 h-6 text-primary shrink-0" />
-        {!collapsed && <span className="font-semibold text-sm text-neutral-900">Menu</span>}
-      </div>
+      <div
+  className={`h-16 flex items-center border-b border-neutral-200 shrink-0 ${
+    collapsed ? 'justify-center px-0' : 'gap-3 px-4'
+  }`}
+>
+  <img
+    src={logoSekolah}
+    alt="Logo Sekolah"
+    className="w-10 h-10 object-contain shrink-0"
+  />
+
+  {!collapsed && (
+    <div>
+      <h2 className="font-bold text-sm text-neutral-900">
+        Perpustakaan
+      </h2>
+      <p className="text-xs text-neutral-500">
+        Perintis
+      </p>
+    </div>
+  )}
+</div>
 
       <nav className="flex-1 p-3 space-y-1">
         {menuItems.map((item) => {

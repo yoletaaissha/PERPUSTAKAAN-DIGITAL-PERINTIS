@@ -1,12 +1,30 @@
 # user_flows/index.md — Peta Alur Pengguna (Use Case Index)
-# Sistem Informasi Perpustakaan Sekolah Berbasis Hybrid
+
+# Sistem Informasi Perpustakaan Perintis
 
 **Versi:** 1.0  
 **Tanggal:** 2026
 
 ---
 
-## Daftar Use Case
+# Dokumen User Flow
+
+Dokumen pada folder ini berisi spesifikasi Use Case dan User Flow Diagram untuk setiap aktor pada Sistem Informasi Perpustakaan Perintis.
+
+## User Flow Diagram
+
+Diagram berikut menggambarkan alur navigasi utama setiap aktor dalam sistem.
+
+| Aktor | Diagram |
+|--------|---------|
+| Siswa | [User Flow Siswa](./user_flow_diagram.md#1-user-flow-siswa) |
+| Guru/Karyawan | [User Flow Guru/Karyawan](./user_flow_diagram.md#2-user-flow-guru--karyawan) |
+| Kepala Sekolah | [User Flow Kepala Sekolah](./user_flow_diagram.md#3-user-flow-kepala-sekolah) |
+| Admin | [User Flow Admin](./user_flow_diagram.md#4-user-flow-admin) |
+
+---
+
+# Daftar Use Case
 
 | Kode UC | Nama Use Case | Aktor | Halaman Terkait | Dependensi | File Detail |
 |---|---|---|---|---|---|
@@ -30,9 +48,35 @@
 
 ---
 
-## Catatan Umum
+# Catatan Umum
 
-- Semua UC kecuali UC-001 membutuhkan pengguna sudah dalam kondisi terautentikasi
-- Jika sesi login tidak valid, sistem wajib redirect ke `/login` sebelum UC dijalankan
-- Untuk prototype, semua data persisten disimpan di **localStorage** dengan key yang terdefinisi per objek data
-- Dummy data awal wajib disertakan agar alur utama dapat langsung didemonstrasikan tanpa perlu input manual
+- Semua Use Case selain **UC-001 (Login Pengguna)** mengharuskan pengguna telah terautentikasi.
+- Jika sesi login tidak valid, sistem akan mengarahkan pengguna kembali ke halaman `/login`.
+- Seluruh data pada prototype disimpan menggunakan **localStorage**.
+- Dummy data awal disediakan agar seluruh fitur dapat langsung diuji tanpa melakukan input data dari awal.
+
+---
+
+# Hubungan Dokumen
+
+```
+SRS
+   │
+   ▼
+Use Case Diagram
+   │
+   ▼
+User Flow Diagram
+   │
+   ▼
+Use Case Specification (UC-001 s.d. UC-017)
+   │
+   ▼
+Sequence Diagram
+   │
+   ▼
+Class Diagram
+   │
+   ▼
+Implementation
+```

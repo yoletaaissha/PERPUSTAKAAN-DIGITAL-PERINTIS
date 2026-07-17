@@ -1,5 +1,5 @@
 # information_architecture.md — Information Architecture
-# Sistem Informasi Perpustakaan Sekolah Berbasis Hybrid
+# Sistem Informasi Perpustakaan Perintis
 
 **Versi:** 1.0  
 **Tanggal:** 2026

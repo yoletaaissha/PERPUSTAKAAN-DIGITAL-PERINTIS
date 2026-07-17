@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { ToastProvider } from './contexts/ToastContext'
 import { ProtectedRoute } from './components/common/ProtectedRoute'
 import RoleLayout from './components/layouts/RoleLayout'
+import SplashScreen from './components/common/SplashScreen'
 import { seedInitialData } from './services/seedData'
 
 import LoginPage from './pages/LoginPage'
@@ -48,7 +49,22 @@ import BackupPage from './pages/admin/BackupPage'
 import LogAktivitasPage from './pages/admin/LogAktivitasPage'
 
 export default function App() {
-  useEffect(() => { seedInitialData() }, [])
+  const [initState, setInitState] = useState('loading')
+
+  useEffect(() => {
+    seedInitialData()
+    const timer = setTimeout(() => setInitState('ready'), 800)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const handleStart = () => {
+    setInitState('fading')
+    setTimeout(() => setInitState('done'), 500)
+  }
+
+  if (initState !== 'done') {
+    return <SplashScreen fading={initState === 'fading'} ready={initState === 'ready'} onStart={handleStart} />
+  }
 
   return (
     <AuthProvider>

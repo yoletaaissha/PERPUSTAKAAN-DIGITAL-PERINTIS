@@ -1,5 +1,5 @@
 # design_system.md — Design System
-# Sistem Informasi Perpustakaan Sekolah Berbasis Hybrid
+# Sistem Informasi Perpustakaan Perintis
 
 **Versi:** 1.0  
 **Tanggal:** 2026
@@ -16,9 +16,9 @@ Antarmuka sistem ini harus terasa **bersih, mudah dibaca, dan profesional** — 
 
 | Nama | Variabel CSS | Kode HEX | Penggunaan |
 |---|---|---|---|
-| Primary | `--color-primary` | `#1D4ED8` | Tombol utama, link aktif, highlight |
-| Primary Dark | `--color-primary-dark` | `#1E3A8A` | Hover state tombol primary |
-| Primary Light | `--color-primary-light` | `#DBEAFE` | Background badge, highlighted row |
+| Primary | `--color-primary` | `#059669` | Tombol utama, link aktif, highlight |
+| Primary Dark | `--color-primary-dark` | `#047857` | Hover state tombol primary |
+| Primary Light | `--color-primary-light` | `#D1FAE5` | Background badge, highlighted row |
 | Secondary | `--color-secondary` | `#0891B2` | Elemen sekunder, tombol kedua |
 | Success | `--color-success` | `#16A34A` | Status "dikembalikan", stok tersedia, notifikasi sukses |
 | Warning | `--color-warning` | `#D97706` | Status "jatuh tempo dekat", stok menipis |
@@ -34,7 +34,7 @@ Antarmuka sistem ini harus terasa **bersih, mudah dibaca, dan profesional** — 
 ### Warna Status Peminjaman
 | Status | Warna Background | Warna Teks |
 |---|---|---|
-| `dipinjam` | `#DBEAFE` (blue-100) | `#1D4ED8` (blue-700) |
+| `dipinjam` | `#D1FAE5` (emerald-100) | `#059669` (emerald-600) |
 | `dikembalikan` | `#DCFCE7` (green-100) | `#16A34A` (green-700) |
 | `terlambat` | `#FEE2E2` (red-100) | `#DC2626` (red-700) |
 
