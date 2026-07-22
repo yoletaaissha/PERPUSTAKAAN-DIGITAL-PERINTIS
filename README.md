@@ -63,8 +63,7 @@ npm run preview
 | Admin | `admin01` | `admin123` |
 
 ## URL Aplikasi (Deployed)
-
-
+https://perpusperintis.netlify.app/
 
 ## URL Repository GitHub
 
